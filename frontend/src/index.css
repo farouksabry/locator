@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'caveat';
+    src: url('/src/assets/fonts/caveat/Caveat-SemiBold.ttf');
+}
+
+.logo {
+    font-family: 'caveat';
+}
+
+a {
+    text-decoration: none;
+}

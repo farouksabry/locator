@@ -1,0 +1,34 @@
+a {
+    text-decoration: none !important;
+}
+
+:root {
+    --large-btn-color: #E85D04;
+    --btn-outline-secondary-color: #588157;
+    --btn-primary-color: #E85D04;
+    --link-text-color: #370617;
+}
+
+.large-btn {
+    background-color: var(--large-btn-color) !important;
+    color: white !important;
+}
+
+.btn-outline-secondary {
+    border-color: var(--btn-outline-secondary-color) !important;
+    color: var(--btn-outline-secondary-color) !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--btn-outline-secondary-color) !important;
+    color: white !important;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-color) !important;
+    border-color: var(--btn-primary-color) !important;
+}
+
+.link-text {
+    color: var(--link-text-color);
+}
