@@ -3,6 +3,8 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate
 from django.middleware.csrf import get_token
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .models import User, Post, Comment
 from rest_framework import status
 from rest_framework.response import Response
@@ -11,8 +13,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from cities_light.models import Country, Region
-from .serializers import UserSerializer, PostSerializer, CommentSerializer, RegisterSerializer, CountrySerializer, RegionSerializer
-from .tokens import EmailVerificationToken
+from .serializers import UserSerializer, PostSerializer, CommentSerializer, RegisterSerializer, CountrySerializer, RegionSerializer, PasswordResetSerializer
+from .tokens import EmailVerificationToken, PasswordResetToken
 
 #Getting CSRF token
 @api_view(['GET'])
@@ -66,10 +68,10 @@ def login_view(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def profile_view(request, username):
+def profile_view(request, slug):
     # Try getting the user to view the profile for that user
     try:
-        user = User.objects.get(username=username)
+        user = User.objects.get(slug=slug)
     except User.DoesNotExist:
         return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -417,3 +419,78 @@ def verify_email_view(request):
         user.save()
 
     return Response({"message": "Email verified successfully."}, status=status.HTTP_200_OK)
+
+# Password reset view
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@authentication_classes([])
+def password_reset_view(request):
+    # Check if the user changed the password
+    if request.data.get("password"):
+        # Check for password reset token
+        token = request.data.get("token")
+
+        # If no token exists
+        if not token:
+            return Response({"error": "Token missing."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Validate the password reset token
+        if not PasswordResetToken(token):
+            return Response({"error": "Invalid token."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Check for user id encoded in urlsafe_base64
+        uidb64 = request.data.get("uid")
+
+        # If no user id exists
+        if not uidb64:
+            return Response({"error": "User id does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Decode user id
+        uid = urlsafe_base64_decode(uidb64).decode()
+
+        # Try getting user data
+        try:
+            user = User.objects.get(pk=uid)
+        except User.DoesNotExist:
+            return Response({"error": "User does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Declare user
+        password = request.data.get("password")
+
+        serializer = PasswordResetSerializer(user, data={"password": password})
+
+        # If is valid, update user password
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message", "Password changed successfully."}, status=status.HTTP_200_OK)
+
+        # Password reset failed
+        return Response({"error": "Password reset failed."}, status=status.HTTP_400_BAD_REQUEST)
+
+    email = request.data.get("email")
+
+    if not email:
+        return Response({"error": "Email missing."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({"userFound": False}, status=status.HTTP_200_OK)
+
+    token = PasswordResetToken.for_user(user)
+    uidb64 = urlsafe_base64_encode(force_bytes(user.id))
+    password_reset_link = f"http://localhost:5173/password-reset?uid={uidb64}&token={token}"
+    subject = "Password Reset"
+    message = f"""
+        Hi {user.first_name},
+        
+        Please click on the following link to set a new password:
+        {password_reset_link}
+
+        Thank you!
+    """
+    from_email = "noreply@wheretofind.com"
+    recipient_list = [user.email]
+    send_mail(subject, message, from_email, recipient_list, fail_silently=False,)
+
+    return Response({"userFound": True}, status=status.HTTP_200_OK)

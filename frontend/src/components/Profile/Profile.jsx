@@ -48,14 +48,14 @@ export default function Profile() {
     }, []);
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5 pt-5">
             {/* Profile Header */}
             <div className="card shadow-sm mb-4 border-0 text-center p-4 bg-light">
                 <div className="d-flex flex-column align-items-center">
                     <Avatar className="mb-3" sx={{ width: 100, height: 100, bgcolor: blue[500], fontSize: 36 }}>
                         {user.first_name[0].toUpperCase()}{user.last_name[0].toUpperCase()}
                     </Avatar>
-                    <p className="text-muted small mb-2">@{user.username}</p>
+                    <p className="text-muted small mb-2">{user.first_name} {user.last_name}</p>
                     <div className="d-flex gap-4">
                         <span className="fw-bold">{posts?.length || 0} {posts?.length > 1 ? "Posts" : "Post"}</span>
                     </div>

@@ -4,3 +4,7 @@ from datetime import timedelta
 class EmailVerificationToken(Token):
     lifetime = timedelta(hours=24)
     token_type = "email_verification"
+
+class PasswordResetToken(Token):
+    lifetime = timedelta(hours=1)
+    token_type = "password_reset"

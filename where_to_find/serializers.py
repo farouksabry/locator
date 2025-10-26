@@ -22,14 +22,31 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'first_name', 'last_name', 'gender', 'dob', 'country', 'region']
+        fields = ['email', 'password', 'first_name', 'last_name', 'gender', 'dob', 'country', 'region']
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
 
+class PasswordResetSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['password']
+
+    def update(self, instance, validated_data):
+        password = validated_data.get("password")
+
+        if password:
+            instance.set_password(password)
+            instance.save()
+
+        return instance
+
 class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(source='post_comments', many=True, read_only=True)
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Post

@@ -4,6 +4,7 @@ import { useContext, useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import { AuthContext } from '../../context/AuthContext';
 import { getCsrfToken } from '../../utils/csrf';
+import { Link } from 'react-router';
 
 export default function Post({ post }) {
     const { user } = useContext(AuthContext);
@@ -46,7 +47,8 @@ export default function Post({ post }) {
     return (
         <div key={postToView.id} className="card mb-4 shadow-sm border-0">
             <div className="card-body">
-                <p className="card-text fs-5">{postToView.post}</p>
+                <h5 className='mb-3'><Link className='link-text' to={`/profile/${postToView.user.slug}/`}>{postToView.user.first_name} {postToView.user.last_name}</Link></h5>
+                <p className="card-text fs-6">{postToView.post}</p>
                 <div className="text-muted small mb-2">
                     Posted on {dayjs(postToView.created_at).format('ddd, MMM D, YYYY h:mm A')}
                 </div>
@@ -81,7 +83,7 @@ export default function Post({ post }) {
                                     <div className="card-body py-2">
                                         <p className="mb-1">{c.comment}</p>
                                         <div className="text-muted small">
-                                            By {c.user.username} on{" "}
+                                            By <Link to={`/profile/${c.user.slug}/`}>{c.user.first_name} {c.user.last_name}</Link> on{" "}
                                             {dayjs(c.created_at).format('ddd, MMM D, YYYY h:mm A')}
                                         </div>
                                     </div>

@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router"
+import { Link, useLocation, useNavigate, useParams } from "react-router"
 import styles from "./NavBar.module.css"
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../../context/AuthContext"
@@ -46,6 +46,7 @@ export default function NavBar() {
         <>
             <nav className={`navbar fixed-top navbar-expand-lg bg-transparent ${styles.wrapper}`}>
                 <div className="container-fluid">
+                    <img height={70} src="/images/logo.png" alt="Logo" />
                     {location.pathname === "/" ? (
                         <Link className={`navbar-brand logo fs-3 ${scrolled ? "text-black" : "text-white"}`} to="/">Where to find</Link>
                     ) : (
@@ -67,9 +68,9 @@ export default function NavBar() {
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 {location.pathname === "/" ? (
-                                    <Link className={`nav-link ${scrolled ? "text-black" : "text-white"}`} aria-current="page" to={`/profile/${user.username}/`}>Profile</Link>
+                                    <Link className={`nav-link ${scrolled ? "text-black" : "text-white"}`} aria-current="page" to={`/profile/${user.slug}/`}>Profile</Link>
                                 ) : (
-                                    <Link className={`nav-link text-black`} aria-current="page" to={`/profile/${user.username}/`}>Profile</Link>
+                                    <Link className={`nav-link text-black`} aria-current="page" to={`/profile/${user.slug}/`}>Profile</Link>
                                 )}
                             </li>
                             <li className="nav-item">

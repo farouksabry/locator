@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', api.login_view, name='login'),
     path('register/', api.register_view, name='register'),
     path('logout/', api.logout_view, name='logout'),
-    path('profile/<str:username>/', api.profile_view, name='profile'),
+    path('profile/<slug:slug>/', api.profile_view, name='profile'),
     path('posts/', api.posts_view, name='posts'),
     path('posts/profile/', api.profile_posts, name='profile_posts'),
     path('posts/<int:id>/', api.post_detail_view, name='post-detail'),
@@ -19,4 +19,5 @@ urlpatterns = [
     path('countries-cities/', api.get_countries_regions, name="get-countries-cities"),
     path('comment/', api.comment_view, name="comments"),
     path('verify-email/', api.verify_email_view, name="verify-email"),
+    path('password-reset/', api.password_reset_view, name="password-reset"),
 ]

@@ -24,6 +24,11 @@ a {
     color: white !important;
 }
 
+.btn-outline-secondary:focus {
+    background-color: var(--btn-outline-secondary-color) !important;
+    color: white !important;
+}
+
 .btn-primary {
     background-color: var(--btn-primary-color) !important;
     border-color: var(--btn-primary-color) !important;

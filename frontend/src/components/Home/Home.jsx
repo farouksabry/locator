@@ -209,7 +209,7 @@ export default function Home() {
                                 </div>
                                 <textarea onChange={handleNewPost} name="new-post" className="form-control" rows="4" placeholder="Write your post here" value={newPostBody}></textarea>
                             </div>
-                            <button type="submit" className="btn btn-primary mb-3">New Post</button>
+                            <button type="submit" className="btn btn-primary mb-5">New Post</button>
                         </form>
                         {posts.map((post) => (
                             <Post key={post.id} post={post} />

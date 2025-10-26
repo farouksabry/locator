@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'where_to_find',
-    'cities_light'
+    'cities_light',
 ]
 
 CITIES_LIGHT_EXCLUDE_COUNTRIES = ['IL']
