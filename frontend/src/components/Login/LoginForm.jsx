@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import axios from 'axios';
+import api from "../../api/axios"
 import { getCsrfToken } from '../../utils/csrf';
 import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
@@ -53,7 +53,7 @@ function LoginForm() {
         const csrf = await getCsrfToken();
 
         try {
-            const response = await axios.post('/api/login/', credentials,
+            const response = await api.post('/api/login/', credentials,
                 {
                     withCredentials: true,
                     headers: {

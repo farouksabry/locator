@@ -1,4 +1,4 @@
-import axios from "axios"
+import api from "../../api/axios"
 import { useNavigate, useSearchParams } from "react-router";
 import { getCsrfToken } from "../../utils/csrf";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ export default function VerifyEmail() {
     const verify_email = async () => {
         const csrf = getCsrfToken();
         try {
-            await axios.post("/api/verify-email/", { token },
+            await api.post("/api/verify-email/", { token },
                 {
                     headers: {
                         'X-CSRFToken': csrf,

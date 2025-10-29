@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axios"
 
 export const LocationsContext = createContext();
 
@@ -10,7 +10,7 @@ export default function LocationsProvider({ children }) {
     useEffect(() => {
         const get_locations = async () => {
             try {
-                const response = await axios.get("/api/countries-cities/");
+                const response = await api.get("/api/countries-cities/");
                 setCountries(response.data.countries);
                 setRegions(response.data.regions);
             } catch (error) {

@@ -1,9 +1,9 @@
-import axios from "axios";
+import api from "../api/axios"
 
 // Getting CSRF Token for the current user
 export const getCsrfToken = async () => {
     try {
-        const response = await axios.get('/api/csrf/', {
+        const response = await api.get('/api/csrf/', {
             withCredentials: true,
         });
 

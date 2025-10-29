@@ -1,4 +1,4 @@
-import { Link } from "react-router"; // use 'react-router-dom' not 'react-router'
+import { Link } from "react-router";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Footer.module.css"
 

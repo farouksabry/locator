@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api/axios"
 import { useState } from "react"
 import { Link } from "react-router"
 import { getCsrfToken } from "../../utils/csrf";
@@ -13,7 +13,7 @@ export default function ForgotPassword() {
         const csrf = getCsrfToken();
 
         try {
-            const response = await axios.post('/api/password-reset/', {
+            const response = await api.post('/api/password-reset/', {
                 email: email,
             }, {
                 withCredentials: true,

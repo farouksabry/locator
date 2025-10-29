@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { getCsrfToken } from "../../utils/csrf";
-import axios from "axios";
+import api from "../../api/axios"
 import { Link, useNavigate } from "react-router";
 import { object, string, ref, date } from 'yup';
 import { LocationsContext } from "../../context/LocationsContext";
@@ -90,7 +90,7 @@ export default function Register() {
         const csrf = await getCsrfToken();
 
         try {
-            const response = await axios.post('/api/register/', user, {
+            const response = await api.post('/api/register/', user, {
                 withCredentials: true,
                 headers: {
                     "X-CSRFToken": csrf,
