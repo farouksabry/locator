@@ -10,14 +10,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-2%&%j*&6x9i(*63x#dw8(h2ikkru-bxxtrx&cjo&65oo-a+f+%'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "api.wheretofind.org",
     "wheretofind.org",
-    "localhost"
+    "localhost",
+    "13.53.112.224",
 ]
 
 # Application definition
@@ -48,6 +50,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://where-to-find.netlify.app",
+    "https://wheretofind.org",
+    "https://api.wheretofind.org",
 ]
 
 ROOT_URLCONF = 'locator.urls'
@@ -136,6 +144,8 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://where-to-find.netlify.app",
+    "https://wheretofind.org",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
