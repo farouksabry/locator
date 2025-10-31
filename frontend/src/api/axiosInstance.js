@@ -2,7 +2,9 @@ import axios from "axios"
 import api from "./axios"
 import { getCsrfToken } from "../utils/csrf";
 
-const axiosInstance = axios.create();
+const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_API_BASEURL,
+});
 
 axiosInstance.interceptors.response.use(
     (response) => response,
