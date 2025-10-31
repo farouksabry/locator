@@ -1,5 +1,4 @@
 import axios from "axios"
-import api from "./axios"
 import { getCsrfToken } from "../utils/csrf";
 
 const axiosInstance = axios.create({
@@ -24,7 +23,7 @@ axiosInstance.interceptors.response.use(
 
             try {
                 // Try to refresh token
-                await api.post("/api/token/refresh/", {}, {
+                await axiosInstance.post("/api/token/refresh/", {}, {
                     withCredentials: true,
                     headers: {
                         'X-CSRFToken': csrf,
@@ -35,7 +34,7 @@ axiosInstance.interceptors.response.use(
                 return axiosInstance(originalRequest);
             } catch (refreshError) {
                 try {
-                    await api.post("/api/logout/", {}, {
+                    await axiosInstance.post("/api/logout/", {}, {
                         withCredentials: true,
                         headers: {
                             'X-CSRFToken': csrf,
