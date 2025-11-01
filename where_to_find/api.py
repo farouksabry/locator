@@ -305,6 +305,7 @@ def check_auth(request):
 @authentication_classes([])
 def get_countries_regions(request):
     countries = Country.objects.all()
+    print(countries)
     regions = Region.objects.all()    
     countries_serializers = CountrySerializer(countries, many=True)
     regions_serializers = RegionSerializer(regions, many=True)
