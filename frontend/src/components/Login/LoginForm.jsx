@@ -75,13 +75,13 @@ function LoginForm() {
         <>
             <div className="container-fluid text-center p-0">
                 <div className="row m-0">
-                    <div className="col-6 p-0">
+                    <div className="col-6 p-0 d-none d-md-block">
                         <img className="w-100 min-vh-100 object-fit-cover" src={login} alt="Login image" />
                     </div>
-                    <div className="col-6 p-0">
+                    <div className="col-12 col-md-6 p-0">
                         <div className="d-flex flex-column justify-content-center align-items-center min-vh-100" id="login-form">
                             <h1 className='logo'>Where to find</h1>
-                            <form className='w-50' onSubmit={handleLogin}>
+                            <form className='w-100' style={{ maxWidth: '400px' }} onSubmit={handleLogin}>
                                 <div className="mb-3">
                                     <input type="email" name="email" value={credentials.email} className="form-control" placeholder="Email address" id="email" aria-describedby="emailHelp" onChange={handleChange} required autoFocus />
                                     <div id="emailHelp" className="form-text text-start">We'll never share your email with anyone else.</div>
