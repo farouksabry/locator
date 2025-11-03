@@ -98,20 +98,20 @@ def register_view(request):
     # Register user
     if serializer.is_valid():
         user = serializer.save()
-        token = EmailVerificationToken.for_user(user)
-        verification_link = f"https://wheretofind.org/verify-email?token={token}"
-        subject = "Verify your email"
-        message = f"""
-            Hi {user.first_name},
+        # token = EmailVerificationToken.for_user(user)
+        # verification_link = f"https://wheretofind.org/verify-email?token={token}"
+        # subject = "Verify your email"
+        # message = f"""
+        #     Hi {user.first_name},
             
-            Please click on the following link to verify your account:
-            {verification_link}
+        #     Please click on the following link to verify your account:
+        #     {verification_link}
 
-            Thank you!
-        """
-        from_email = "noreply@wheretofind.org"
-        recipient_list = [user.email]
-        send_mail(subject, message, from_email, recipient_list, fail_silently=False,)
+        #     Thank you!
+        # """
+        # from_email = "noreply@wheretofind.org"
+        # recipient_list = [user.email]
+        # send_mail(subject, message, from_email, recipient_list, fail_silently=False,)
         return Response({"registered": True}, status=status.HTTP_201_CREATED)
 
     # If data is not valid
