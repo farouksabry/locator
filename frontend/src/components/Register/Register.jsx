@@ -51,7 +51,11 @@ export default function Register() {
                 .label("Email")
                 .required().email(),
             password: string()
-                .label("Password").required().min(8),
+                .label("Password").required().min(8)
+                .matches(/[A-Z]/, "Password must contain at least one uppercase letter.")
+                .matches(/[a-z]/, "Password must contain at least one lowercase letter.")
+                .matches(/[0-9]/, "Password must contain at least one digit.")
+                .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character."),
             confirm_password: string()
                 .label("Password confirmation").oneOf([ref('password'), null], 'Passwords must match'),
             dob: date()
