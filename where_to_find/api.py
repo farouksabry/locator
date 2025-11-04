@@ -1,5 +1,7 @@
+import os
 from django.conf import settings
-from django.core.mail import send_mail
+from smtplib import SMTPException
+from django.core.mail import send_mail, BadHeaderError
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate
 from django.middleware.csrf import get_token
@@ -98,20 +100,26 @@ def register_view(request):
     # Register user
     if serializer.is_valid():
         user = serializer.save()
-        # token = EmailVerificationToken.for_user(user)
-        # verification_link = f"https://wheretofind.org/verify-email?token={token}"
-        # subject = "Verify your email"
-        # message = f"""
-        #     Hi {user.first_name},
+        token = EmailVerificationToken.for_user(user)
+        frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:5173")
+        verification_link = f"{frontend_url}/verify-email?token={token}"
+        subject = "Verify your email"
+        message = f"""
+            Hi {user.first_name},
             
-        #     Please click on the following link to verify your account:
-        #     {verification_link}
+            Please click on the following link to verify your account:
+            {verification_link}
 
-        #     Thank you!
-        # """
-        # from_email = "noreply@wheretofind.org"
-        # recipient_list = [user.email]
-        # send_mail(subject, message, from_email, recipient_list, fail_silently=False,)
+            Thank you!
+        """
+        from_email = "noreply@wheretofind.org"
+        recipient_list = [user.email]
+
+        try:
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        except (BadHeaderError, SMTPException) as e:
+            return Response({"error": f"Email sending failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         return Response({"registered": True}, status=status.HTTP_201_CREATED)
 
     # If data is not valid
