@@ -158,7 +158,7 @@ if os.environ.get("DJANGO_ENV") == "production":
     EMAIL_USE_TLS = True
     EMAIL_HOST_USER = os.environ.get('BREVO_SMTP_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('BREVO_SMTP_PASSWORD')
-    DEFAULT_FROM_EMAIL = 'noreply@wheretofind.org'
+    DEFAULT_FROM_EMAIL = "WhereToFind <noreply@wheretofind.org>"
     SERVER_EMAIL = DEFAULT_FROM_EMAIL
 else:
     # --- DEVELOPMENT (LOCAL) ---

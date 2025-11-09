@@ -17,6 +17,7 @@ from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from cities_light.models import Country, Region
 from .serializers import UserSerializer, PostSerializer, CommentSerializer, RegisterSerializer, CountrySerializer, RegionSerializer, PasswordResetSerializer
 from .tokens import EmailVerificationToken, PasswordResetToken
+from .utils import send_verification_email
 
 #Getting CSRF token
 @api_view(['GET'])
@@ -101,25 +102,25 @@ def register_view(request):
     if serializer.is_valid():
         user = serializer.save()
         token = EmailVerificationToken.for_user(user)
-        frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:5173")
-        verification_link = f"{frontend_url}/verify-email?token={token}"
-        subject = "Verify your email"
-        message = f"""
-            Hi {user.first_name},
+        # frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:5173")
+        # verification_link = f"{frontend_url}/verify-email?token={token}"
+        # subject = "Verify your email"
+        # message = f"""
+        #     Hi {user.first_name},
             
-            Please click on the following link to verify your account:
-            {verification_link}
+        #     Please click on the following link to verify your account:
+        #     {verification_link}
 
-            Thank you!
-        """
-        from_email = "noreply@wheretofind.org"
-        recipient_list = [user.email]
+        #     Thank you!
+        # """
+        # from_email = "noreply@wheretofind.org"
+        # recipient_list = [user.email]
 
-        try:
-            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-        except (BadHeaderError, SMTPException) as e:
-            return Response({"error": f"Email sending failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        # try:
+        #     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+        # except (BadHeaderError, SMTPException) as e:
+        #     return Response({"error": f"Email sending failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        send_verification_email(user, token)
         return Response({"registered": True}, status=status.HTTP_201_CREATED)
 
     # If data is not valid
