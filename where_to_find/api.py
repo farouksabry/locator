@@ -17,7 +17,7 @@ from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from cities_light.models import Country, Region
 from .serializers import UserSerializer, PostSerializer, CommentSerializer, RegisterSerializer, CountrySerializer, RegionSerializer, PasswordResetSerializer
 from .tokens import EmailVerificationToken, PasswordResetToken
-from .utils import send_verification_email
+from .utils.emails import send_verification_email
 
 #Getting CSRF token
 @api_view(['GET'])
