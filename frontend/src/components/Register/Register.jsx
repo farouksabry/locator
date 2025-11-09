@@ -123,8 +123,8 @@ export default function Register() {
     return (
         <>
             {emailNotification ? (
-                <div className="d-flex justify-content-center align-items-center vh-100">
-                    <div className="card border-success mb-3 w-50 mx-auto">
+                <div className="d-flex justify-content-center align-items-center vh-100 p-3">
+                    <div className="card border-success mb-3 w-50 mx-auto w-auto">
                         <div className="card-body text-success text-center">
                             <h5 className="card-title">Thank you!</h5>
                             <p className="card-text">{emailNotification}</p>
@@ -133,7 +133,7 @@ export default function Register() {
                     </div>
                 </div>
             ) : countries.length > 0 ? (
-                    <div className="d-flex flex-column align-items-center">
+                    <div className="d-flex flex-column align-items-center p-5">
                         <div className="card w-30 d-flex flex-column align-items-center mt-5">
                             <div className="card-body d-flex flex-column align-items-center" id="register-form">
                                 <h1 className="logo">Where to find</h1>

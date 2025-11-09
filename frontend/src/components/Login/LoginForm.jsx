@@ -73,12 +73,12 @@ function LoginForm() {
 
     return (
         <>
-            <div className="container-fluid text-center p-0">
+            <div className="text-center">
                 <div className="row m-0">
                     <div className="col-6 p-0 d-none d-md-block">
                         <img className="w-100 min-vh-100 object-fit-cover" src={login} alt="Login image" />
                     </div>
-                    <div className="col-12 col-md-6 p-0">
+                    <div className="col-12 col-md-6 p-2">
                         <div className="d-flex flex-column justify-content-center align-items-center min-vh-100" id="login-form">
                             <h1 className='logo'>Where to find</h1>
                             <form className='w-100' style={{ maxWidth: '400px' }} onSubmit={handleLogin}>

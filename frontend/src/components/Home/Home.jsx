@@ -4,9 +4,7 @@ import { LocationsContext } from "../../context/LocationsContext";
 import axiosInstance from "../../api/axiosInstance";
 import Post from "../Post/Post";
 import { getCsrfToken } from "../../utils/csrf";
-
 import banner from "@/assets/images/banner.png"
-
 import styles from "./Home.module.css"
 
 export default function Home() {
@@ -158,11 +156,11 @@ export default function Home() {
                 <>
                     <div className="position-relative w-100 top-0">
                         <img className="w-100 object-fit-cover" height="500px" src={banner} alt="banner" />
-                        <div className={`${styles.locationForm} position-absolute top-50 start-50 translate-middle w-75 fs-4`}>
+                        <div className={`${styles.locationForm} position-absolute top-50 start-50 translate-middle p-3`}>
                             {changingLocation ?
                                 <>
-                                    <div className="row g-3 justify-content-md-center">
-                                        <div className="col-auto">
+                                    <div className="row g-2 justify-content-center">
+                                        <div className="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
                                             <select onChange={handleNewLocation} className="form-select" name="newCountry">
                                                 <option value="">Select a country</option>
                                                 {countries.map((country) => (
@@ -170,7 +168,7 @@ export default function Home() {
                                                 ))}
                                             </select>
                                         </div>
-                                        <div className="col-auto">
+                                        <div className="col-5 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                                             <select onChange={handleNewLocation} className="form-select" name="regionSelected">
                                                 <option value={null}>Select your city</option>
                                                 {newLocationData.newCountry ?
@@ -182,10 +180,10 @@ export default function Home() {
                                                 }
                                             </select>
                                         </div>
-                                        <div className="col-auto">
+                                        <div className="col-5 col-sm-4 col-md-3 col-lg-3 col-xl-3">
                                             <button onClick={() => fetch_posts(newLocationData.newCountry, newLocationData.regionSelected, null)} type="button" className="ms-2 btn btn-outline-secondary">Change Location</button>
                                         </div>
-                                        <div className="col-auto">
+                                        <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                                             <button onClick={toggleChangingLocation} type="button" className="btn btn-secondary">Cancel</button>
                                         </div>
                                     </div>
@@ -193,7 +191,7 @@ export default function Home() {
                                 :
                                 <>
                                     You are now viewing posts in {postsRegion.id ? postsRegion.name + "," : ""} {postsCountry.name}
-                                    <button onClick={toggleChangingLocation} type="button" className="ms-2 btn btn-outline-secondary">Change location</button>
+                                    <button onClick={toggleChangingLocation} type="button" className="mt-2 ms-2 btn btn-outline-secondary">Change location</button>
                                 </>
                             }
                         </div>
@@ -202,7 +200,7 @@ export default function Home() {
                         <div className="alert alert-danger" role="alert">{error}</div>
                     )}
                     <div className={`container position-relative `}>
-                        <form className="mt-3 w-50" onSubmit={newPost}>
+                        <form className={styles.newPostForm} onSubmit={newPost}>
                             <div className="mb-3">
                                 <div className="mb-3">
                                     <p>Looking for this something in this region ? Create a new post.</p>
