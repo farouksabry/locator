@@ -5,8 +5,7 @@ from django.core.mail import send_mail, BadHeaderError
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate
 from django.middleware.csrf import get_token
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_decode
 from .models import User, Post, Comment
 from rest_framework import status
 from rest_framework.response import Response
@@ -17,7 +16,7 @@ from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from cities_light.models import Country, Region
 from .serializers import UserSerializer, PostSerializer, CommentSerializer, RegisterSerializer, CountrySerializer, RegionSerializer, PasswordResetSerializer
 from .tokens import EmailVerificationToken, PasswordResetToken
-from .utils.emails import send_verification_email
+from .utils.emails import send_email
 
 #Getting CSRF token
 @api_view(['GET'])
@@ -102,25 +101,7 @@ def register_view(request):
     if serializer.is_valid():
         user = serializer.save()
         token = EmailVerificationToken.for_user(user)
-        # frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:5173")
-        # verification_link = f"{frontend_url}/verify-email?token={token}"
-        # subject = "Verify your email"
-        # message = f"""
-        #     Hi {user.first_name},
-            
-        #     Please click on the following link to verify your account:
-        #     {verification_link}
-
-        #     Thank you!
-        # """
-        # from_email = "noreply@wheretofind.org"
-        # recipient_list = [user.email]
-
-        # try:
-        #     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-        # except (BadHeaderError, SMTPException) as e:
-        #     return Response({"error": f"Email sending failed: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        send_verification_email(user, token)
+        send_email(user, token, "verify-email", "verify_email")
         return Response({"registered": True}, status=status.HTTP_201_CREATED)
 
     # If data is not valid
@@ -487,19 +468,6 @@ def password_reset_view(request):
         return Response({"userFound": False}, status=status.HTTP_200_OK)
 
     token = PasswordResetToken.for_user(user)
-    uidb64 = urlsafe_base64_encode(force_bytes(user.id))
-    password_reset_link = f"http://localhost:5173/password-reset?uid={uidb64}&token={token}"
-    subject = "Password Reset"
-    message = f"""
-        Hi {user.first_name},
-        
-        Please click on the following link to set a new password:
-        {password_reset_link}
-
-        Thank you!
-    """
-    from_email = "noreply@wheretofind.com"
-    recipient_list = [user.email]
-    send_mail(subject, message, from_email, recipient_list, fail_silently=False,)
+    send_email(user, token, "password-reset", "password_reset")
 
     return Response({"userFound": True}, status=status.HTTP_200_OK)

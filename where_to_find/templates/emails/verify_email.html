@@ -1,11 +1,9 @@
 {% extends "emails/base_email.html" %}
 {% block content %}
   <h2>Welcome, {{ user.first_name }}!</h2>
-  <p>Thank you for signing up for <b>WhereToFind</b>.</p>
+  <p>Thank you for signing up for <b>wheretofind</b>.</p>
   <p>Please verify your email address by clicking the button below:</p>
   <p style="text-align:center;">
-    <a href="{{ verification_link }}" class="btn">Verify My Email</a>
+    <a href="{{ link }}" class="btn">Verify My Email</a>
   </p>
-  <p>If that doesn’t work, copy and paste this link into your browser:</p>
-  <p><a href="{{ verification_link }}">{{ verification_link }}</a></p>
 {% endblock %}

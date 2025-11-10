@@ -2,23 +2,31 @@ import os
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 
-def send_verification_email(user, token):
+def send_email(user, token, route, file_name):
     """
-    Sends an HTML verification email to a user.
+    Sends an HTML email to a user.
     """
     frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:5173")
-    verification_link = f"{frontend_url}/verify-email?token={token}"
-    subject = "Verify your email address"
+
+    if route == "verify-email":
+        link = f"{frontend_url}/{route}?token={token}"
+        subject = "Verify your email address"
+    elif route == "password-reset":
+        uidb64 = urlsafe_base64_encode(force_bytes(user.id))
+        link = f"{frontend_url}/{route}?uid={uidb64}&token={token}"
+        subject = "Reset your password"
 
     # Render the HTML template
-    html_content = render_to_string("emails/verify_email.html", {
+    html_content = render_to_string(f"emails/{file_name}.html", {
         "user": user,
-        "verification_link": verification_link,
+        "link": link,
     })
 
     # Fallback plain text version
-    text_content = f"Hello {user.first_name}, please verify your email: {verification_link}"
+    text_content = f"Hello {user.first_name}"
 
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user.email]
