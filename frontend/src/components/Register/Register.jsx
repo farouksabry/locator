@@ -200,7 +200,7 @@ export default function Register() {
                         </div>
                     </div>
                     ) : (
-                    <div>Loading countries...</div>
+                    <div className="loading-profile">Loading countries...</div>
             )}
         </>
     )

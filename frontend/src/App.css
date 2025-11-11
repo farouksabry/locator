@@ -54,3 +54,10 @@ a {
 .nav-link {
     width: 100% !important;
 }
+.loading-profile {
+    height: 80vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -80,7 +80,7 @@ export default function Profile() {
                     {/* Posts Section */}
                     <div className="d-flex flex-column align-items-center">
                         {posts === null ? (
-                            <p>Loading posts...</p>
+                            <p className="loading-profile">Loading posts...</p>
                         ) : posts.length === 0 ? (
                             <p>No posts available.</p>
                         ) : (
@@ -100,14 +100,8 @@ export default function Profile() {
                     </div>
                 </div>
             ) : (
-                <div>
-                    <div>Loading Profile...</div>
-                    <div>Loading Profile...</div>
-                    <div>Loading Profile...</div>
-                    <div>Loading Profile...</div>
-                    <div>Loading Profile...</div>
-                    <div>Loading Profile...</div>
-                    <div>Loading Profile...</div>
+                <div className="loading-profile">
+                    <div className="loading-profile">Loading Profile...</div>
                 </div>
             )}
         </>

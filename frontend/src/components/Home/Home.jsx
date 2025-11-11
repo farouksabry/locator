@@ -149,7 +149,7 @@ export default function Home() {
     return (
         <>
             {posts === null && (
-                <p>Loading posts...</p>
+                <p  className="loading-profile">Loading posts...</p>
             )}
 
             {posts && regions && postsCountry && (
