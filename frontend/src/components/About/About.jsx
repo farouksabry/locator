@@ -13,7 +13,7 @@ export default function About() {
         <>
             <div className="container-fluid mt-5 pt-5">
                 <NavBar />
-                <div className="row align-items-center m-5">
+                <div className="row align-items-center mx-3 my-5">
                     {/* Left: Text Section */}
                     <div className="col-md-6 mb-5 mb-md-0">
                         <h1 className="fw-bold mb-4 display-5 text-dark">
