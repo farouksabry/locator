@@ -223,17 +223,28 @@ def posts_view(request):
 def profile_posts(request):
     if request.query_params.get("profile") and request.query_params.get("profile") == "true":
         page_number = request.query_params.get("page_number")
+        slug = request.query_params.get("slug")
 
         if not page_number:
             page_number = 1
         else:
             page_number = int(page_number)
 
-        posts = Post.objects.filter(user=request.user.id).order_by("-created_at")
+        if not slug:
+            slug = request.user.slug
+
+        try:
+            user = User.objects.get(slug=slug)
+        except User.DoesNotExist:
+            user = request.user
+
+        posts = Post.objects.filter(user=user.id).order_by("-created_at")
         paginator = Paginator(posts, 10)
         posts_serializer = PostSerializer(paginator.get_page(page_number), many=True)
+        user_serializer = UserSerializer(user)
 
         return Response({
+            "user": user_serializer.data,
             "page_number": page_number,
             "pages_count": paginator.num_pages,
             "posts": posts_serializer.data,

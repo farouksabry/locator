@@ -78,9 +78,9 @@ function LoginForm() {
                     <div className="col-6 p-0 d-none d-md-block">
                         <img className="w-100 min-vh-100 object-fit-cover" src={login} alt="Login image" />
                     </div>
-                    <div className="col-12 col-md-6 p-2">
+                    <div className="col-12 col-md-6 p-3">
                         <div className="d-flex flex-column justify-content-center align-items-center min-vh-100" id="login-form">
-                            <h1 className='logo'>Where to find</h1>
+                            <Link className='link-text' to="/"><h1 className='logo'>Where to find</h1></Link>
                             <form className='w-100' style={{ maxWidth: '400px' }} onSubmit={handleLogin}>
                                 <div className="mb-3">
                                     <input type="email" name="email" value={credentials.email} className="form-control" placeholder="Email address" id="email" aria-describedby="emailHelp" onChange={handleChange} required autoFocus />

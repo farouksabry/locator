@@ -1,3 +1,9 @@
-.customTextWidth { 
-    max-width: 350px;
+.customTextWidth {
+    max-width: 500px;
+}
+
+@media (max-width: 576px) {
+    .customTextWidth {
+        max-width: 100%;
+    }
 }

@@ -133,10 +133,10 @@ export default function Register() {
                     </div>
                 </div>
             ) : countries.length > 0 ? (
-                    <div className="d-flex flex-column align-items-center p-5">
+                    <div className="d-flex flex-column align-items-center p-3">
                         <div className="card w-30 d-flex flex-column align-items-center mt-5">
                             <div className="card-body d-flex flex-column align-items-center" id="register-form">
-                                <h1 className="logo">Where to find</h1>
+                                <Link className="link-text" to ="/"><h1 className="logo">Where to find</h1></Link>
                                 <form onSubmit={handleRegistration} className="w-30">
                                     <div className="row">
                                         <div className="col-6">

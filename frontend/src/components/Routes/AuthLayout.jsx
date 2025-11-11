@@ -10,12 +10,16 @@ export default function AuthLayout() {
         <>
             {isLoggedIn ? (
                 <>
-                    <NavBar />
-                    <Outlet />
-                    <Footer />
+                    <div className='d-flex flex-column min-vh-100'>
+                        <NavBar />
+                        <main className='flex-grow-1'>
+                            <Outlet />
+                        </main>
+                        <Footer />
+                    </div>
                 </>
             ) : (
-                <Navigate to="login" />
+                <Navigate to="/login" />
             )}
         </>
     )

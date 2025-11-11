@@ -168,7 +168,7 @@ export default function Home() {
                                                 ))}
                                             </select>
                                         </div>
-                                        <div className="col-5 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                        <div className="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                                             <select onChange={handleNewLocation} className="form-select" name="regionSelected">
                                                 <option value={null}>Select your city</option>
                                                 {newLocationData.newCountry ?
@@ -183,7 +183,7 @@ export default function Home() {
                                         <div className="col-5 col-sm-4 col-md-3 col-lg-3 col-xl-3">
                                             <button onClick={() => fetch_posts(newLocationData.newCountry, newLocationData.regionSelected, null)} type="button" className="ms-2 btn btn-outline-secondary">Change Location</button>
                                         </div>
-                                        <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                        <div className="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                                             <button onClick={toggleChangingLocation} type="button" className="btn btn-secondary">Cancel</button>
                                         </div>
                                     </div>
@@ -203,7 +203,8 @@ export default function Home() {
                         <form className={styles.newPostForm} onSubmit={newPost}>
                             <div className="mb-3">
                                 <div className="mb-3">
-                                    <p>Looking for this something in this region ? Create a new post.</p>
+                                    <p>Can’t find what you’re looking for here? Create a post and let the community help you!
+</p>
                                 </div>
                                 <textarea onChange={handleNewPost} name="new-post" className="form-control" rows="4" placeholder="Write your post here" value={newPostBody}></textarea>
                             </div>
