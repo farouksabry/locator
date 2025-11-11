@@ -100,7 +100,15 @@ export default function Profile() {
                     </div>
                 </div>
             ) : (
-                <div>Loading Profile...</div>
+                <div>
+                    <div>Loading Profile...</div>
+                    <div>Loading Profile...</div>
+                    <div>Loading Profile...</div>
+                    <div>Loading Profile...</div>
+                    <div>Loading Profile...</div>
+                    <div>Loading Profile...</div>
+                    <div>Loading Profile...</div>
+                </div>
             )}
         </>
     );
