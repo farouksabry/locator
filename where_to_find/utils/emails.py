@@ -34,3 +34,18 @@ def send_email(user, token, route, file_name):
     msg = EmailMultiAlternatives(subject, text_content, from_email, recipient_list)
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+def send_notify_email(user, notification):
+    subject = "Notification"
+    html_content = render_to_string(f"emails/notify.html", {
+        "user": user,
+        "notification": notification
+    })
+
+    text_content = notification
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recepient_list = [user.email]
+
+    msg = EmailMultiAlternatives(subject, text_content, from_email, recepient_list)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()

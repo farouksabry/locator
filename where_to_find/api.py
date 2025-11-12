@@ -16,7 +16,7 @@ from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from cities_light.models import Country, Region
 from .serializers import UserSerializer, PostSerializer, CommentSerializer, RegisterSerializer, CountrySerializer, RegionSerializer, PasswordResetSerializer
 from .tokens import EmailVerificationToken, PasswordResetToken
-from .utils.emails import send_email
+from .utils.emails import send_email, send_notify_email
 
 #Getting CSRF token
 @api_view(['GET'])
@@ -385,6 +385,8 @@ def comment_view(request):
 
     if comment_serializer.is_valid():
         comment_serializer.save(user=request.user)
+        if post.user.id != user:
+            send_notify_email(post.user, "You have a new comment to your post. Please log in to view your post.")
         post_serializer = PostSerializer(post)
         return Response(post_serializer.data, status=status.HTTP_201_CREATED)
 
