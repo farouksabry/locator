@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { MdOutlineModeComment } from "react-icons/md";
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import { AuthContext } from '../../context/AuthContext';
 import { getCsrfToken } from '../../utils/csrf';
@@ -10,7 +10,7 @@ export default function Post({ post }) {
     const { user } = useContext(AuthContext);
     const [comment, setComment] = useState("");
     const [showComment, setShowComment] = useState(false);
-    const [postToView, setPostToView] = useState(post)
+    const [postToView, setPostToView] = useState(post);
 
     // Post comment
     const handleChange = (e) => {
@@ -39,10 +39,29 @@ export default function Post({ post }) {
             setPostToView(response.data)
             setComment("");
             setShowComment(false);
+            send_notification();
         } catch {
             console.error("Error adding comment.")
         }
     };
+
+    const send_notification = async () => {
+        try {
+            const csrf = await getCsrfToken();
+            axiosInstance.post("/api/comment/", {
+                user: user.id,
+                post: postToView,
+                notify: true,
+            }, {
+                withCredentials: true,
+                headers: {
+                    'X-CSRFToken': csrf,
+                }
+            });
+        } catch {
+            console.log("Failed to send comment notification.")
+        }
+    }
 
     return (
         <div key={postToView.id} className="card mb-4 shadow-sm border-0">

@@ -361,12 +361,39 @@ def logout_view(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def comment_view(request):
+    # Check if post author notification is needed
+    if request.data.get("notify"):
+        commentor = request.data.get("user")
+        post = request.data.get("post")
+
+        # If data is not complete
+        if not commentor or not post:
+            return Response({"error": "Notification failed."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(pk=commentor)
+        except User.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            post = Post.objects.get(pk=post["id"])
+        except Post.DoesNotExist:
+            return Response({"error": "Post not found."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if user.id != request.user.id:
+            return Response({"error": "Unauthorized request."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if post.user.id != user.id:
+            send_notify_email(post.user , "You have a new comment to your post. Please log in to view your post.")
+
+        return Response({"message": "Email sent."}, status=status.HTTP_200_OK)
+
     post_id = request.data.get('post')
     comment = request.data.get('comment')
     user = request.data.get('user')
 
     if not post_id or not comment or not user:
-        return Response({"error: Error adding comment."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Error adding comment."}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         author = User.objects.get(pk=user)
@@ -385,8 +412,6 @@ def comment_view(request):
 
     if comment_serializer.is_valid():
         comment_serializer.save(user=request.user)
-        if post.user.id != user:
-            send_notify_email(post.user, "You have a new comment to your post. Please log in to view your post.")
         post_serializer = PostSerializer(post)
         return Response(post_serializer.data, status=status.HTTP_201_CREATED)
 
